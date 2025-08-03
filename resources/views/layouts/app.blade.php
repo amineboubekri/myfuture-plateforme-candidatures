@@ -520,7 +520,7 @@
                         <li class="nav-item"><a class="nav-link" href="/admin/messages">Messagerie</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('admin.users.index') }}">Utilisateurs</a></li>
                         <li class="nav-item"><a class="nav-link" href="/admin/reports">Reporting</a></li>
-                        <!--<li class="nav-item"><a class="nav-link" href="/chatbot"><i class="fas fa-robot me-1"></i>Assistant IA</a></li>-->
+                        <li class="nav-item"><a class="nav-link" href="/chatbot"><i class="fas fa-robot me-1"></i>Assistant IA</a></li>
                     @endif
                     <li class="nav-item"><a class="nav-link" href="/notifications">Notifications</a></li>
                     <li class="nav-item"><a class="nav-link" href="/logout">Déconnexion</a></li>
