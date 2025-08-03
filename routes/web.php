@@ -64,7 +64,6 @@ Route::middleware(['auth', 'role:student'])->prefix('student')->group(function (
     Route::post('/documents/upload', [App\Http\Controllers\Student\DocumentController::class, 'upload']);
     Route::get('/messages', [App\Http\Controllers\Student\MessageController::class, 'index']);
     Route::post('/messages/send', [App\Http\Controllers\Student\MessageController::class, 'send']);
-    Route::post('/chatbot/send', [ChatbotController::class, 'sendMessage'])->name('chatbot.send');
 });
 
 // Admin dashboard
@@ -80,7 +79,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/messages', [App\Http\Controllers\Admin\MessageController::class, 'index']);
     Route::post('/messages/send', [App\Http\Controllers\Admin\MessageController::class, 'send']);
     Route::get('/reports', [App\Http\Controllers\Admin\ReportController::class, 'index']);
-    Route::post('/chatbot/send', [ChatbotController::class, 'sendMessage'])->name('chatbot.send');
 
 
     // User Management

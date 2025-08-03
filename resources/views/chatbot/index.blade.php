@@ -330,12 +330,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const data = await response.json();
 
-            if (response.ok && data.response) {
-                // Hide typing and add bot response
-                hideTyping();
+            hideTyping();
+            
+            if (response.ok && data.success && data.response) {
+                // Add successful bot response
                 addMessage(data.response);
+            } else if (data.error && data.message) {
+                // Add specific error message from server
+                addMessage(data.message);
             } else {
-                hideTyping();
+                // Generic error message
                 addMessage('Désolé, une erreur s\'est produite. Veuillez réessayer plus tard.');
             }
         } catch (error) {
