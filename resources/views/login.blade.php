@@ -426,6 +426,16 @@
                 <span>ou</span>
             </div>
 
+            <!-- Additional Links -->
+            <div class="register-link">
+                <a href="{{ route('password.request') }}" style="color: var(--text-muted); font-size: 0.9rem;">Mot de passe oublié ?</a>
+            </div>
+            
+            <!-- Divider -->
+            <div class="divider">
+                <span>ou</span>
+            </div>
+            
             <!-- Register Link -->
             <div class="register-link">
                 Pas encore de compte ? <a href="/register">Créer un compte</a>

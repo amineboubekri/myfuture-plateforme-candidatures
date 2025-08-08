@@ -137,7 +137,7 @@
                                 <span class="country-name text-dark fw-medium">{{ $row->country }}</span>
                             </div>
                             <div class="country-count">
-                                <span class="badge bg-gradient-primary rounded-pill px-3 py-2">{{ $row->total }}</span>
+                                <span class="badge bg-gradient-primary text-dark rounded-pill px-3 py-2">{{ $row->total }}</span>
                             </div>
                         </div>
                     @endforeach

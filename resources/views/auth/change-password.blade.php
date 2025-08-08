@@ -107,9 +107,15 @@
                         <div class="text-center">
                             <div class="row">
                                 <div class="col-6">
-                                    <a href="{{ route('dashboard') }}" class="text-white text-decoration-none opacity-75">
-                                        <i class="fas fa-home me-1"></i>Tableau de bord
-                                    </a>
+                                    @if(auth()->user()->role === 'admin')
+                                        <a href="/admin/dashboard" class="text-white text-decoration-none opacity-75">
+                                            <i class="fas fa-home me-1"></i>Tableau de bord
+                                        </a>
+                                    @else
+                                        <a href="{{ route('student.dashboard') }}" class="text-white text-decoration-none opacity-75">
+                                            <i class="fas fa-home me-1"></i>Tableau de bord
+                                        </a>
+                                    @endif
                                 </div>
                                 <div class="col-6">
                                     <form method="POST" action="{{ route('logout') }}" class="d-inline">

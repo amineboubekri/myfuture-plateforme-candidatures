@@ -523,7 +523,19 @@
                         <li class="nav-item"><a class="nav-link" href="/ia-helper"><i class="fas fa-robot me-1"></i>Assistant IA</a></li>
                     @endif
                     <li class="nav-item"><a class="nav-link" href="/notifications">Notifications</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/logout">Déconnexion</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-1"></i>{{ auth()->user()->name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);">
+                            <li><a class="dropdown-item" href="/change-password" style="color: var(--text-primary);"><i class="fas fa-key me-2"></i>Changer le mot de passe</a></li>
+                            @if(auth()->user()->role === 'student')
+                                <li><a class="dropdown-item" href="{{ route('2fa.setup') }}" style="color: var(--text-primary);"><i class="fas fa-shield-alt me-2"></i>Authentification 2FA</a></li>
+                            @endif
+                            <li><hr class="dropdown-divider" style="border-color: var(--glass-border);"></li>
+                            <li><a class="dropdown-item" href="/logout" style="color: var(--text-primary);"><i class="fas fa-sign-out-alt me-2"></i>Déconnexion</a></li>
+                        </ul>
+                    </li>
                 @else
                     <li class="nav-item"><a class="nav-link" href="/login">Connexion</a></li>
                     <li class="nav-item"><a class="nav-link" href="/register">Inscription</a></li>

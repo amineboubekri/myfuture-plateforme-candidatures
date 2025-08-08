@@ -49,15 +49,39 @@ Route::post('/email/verification-notification', [App\Http\Controllers\AuthContro
     ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.send');
 
-// Password Change
+// Password Change (for authenticated users)
 Route::get('/change-password', [App\Http\Controllers\AuthController::class, 'showChangePasswordForm'])->middleware('auth')->name('change-password');
-Route::post('/change-password', [App\Http\Controllers\AuthController::class, 'changePassword'])->middleware('auth');
+Route::post('/change-password', [App\Http\Controllers\AuthController::class, 'changePassword'])->middleware('auth')->name('password.change');
 
-// Student dashboard
-Route::middleware(['auth', 'role:student'])->prefix('student')->group(function () {
-    Route::get('/dashboard', [App\Http\Controllers\Student\DashboardController::class, 'index']);
+// Password Reset (for unauthenticated users)
+Route::get('/forgot-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/forgot-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/reset-password/{token}', [App\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [App\Http\Controllers\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
+
+// Two-Factor Authentication Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/2fa/setup', [App\Http\Controllers\TwoFactorController::class, 'show'])->name('2fa.setup');
+    Route::post('/2fa/enable', [App\Http\Controllers\TwoFactorController::class, 'enable'])->name('2fa.enable');
+    Route::post('/2fa/disable', [App\Http\Controllers\TwoFactorController::class, 'disable'])->name('2fa.disable');
+    Route::post('/2fa/reset', [App\Http\Controllers\TwoFactorController::class, 'reset'])->name('2fa.reset');
+});
+
+// 2FA verification during login (no auth middleware needed)
+Route::get('/2fa/verify', [App\Http\Controllers\TwoFactorController::class, 'showVerify'])->name('2fa.verify');
+Route::post('/2fa/verify', [App\Http\Controllers\TwoFactorController::class, 'verify']);
+
+// Profile Setup Routes (accessible to students even with incomplete profile)
+Route::middleware(['auth', 'role:student'])->group(function () {
+    Route::get('/student/profile/setup', [App\Http\Controllers\Student\ProfileController::class, 'show'])->name('student.profile.setup');
+    Route::post('/student/profile/update', [App\Http\Controllers\Student\ProfileController::class, 'update'])->name('student.profile.update');
+});
+
+// Student dashboard (requires complete profile)
+Route::middleware(['auth', 'role:student', 'profile.complete', '2fa'])->prefix('student')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\Student\DashboardController::class, 'index'])->name('student.dashboard');
     Route::get('/application', [App\Http\Controllers\Student\ApplicationController::class, 'show']);
-    Route::get('/application/create', [App\Http\Controllers\Student\ApplicationController::class, 'create']);
+    Route::get('/application/create', [App\Http\Controllers\Student\ApplicationController::class, 'create'])->name('student.application.create');
     Route::post('/application/create', [App\Http\Controllers\Student\ApplicationController::class, 'store']);
     Route::post('/application/submit', [App\Http\Controllers\Student\ApplicationController::class, 'submitApplication']);
     Route::get('/documents', [App\Http\Controllers\Student\DocumentController::class, 'index'])->name('student.documents');
@@ -92,6 +116,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index']);
     Route::post('/notifications/{id}/read', [App\Http\Controllers\NotificationController::class, 'markAsRead']);
-    Route::get('/chatbot', [App\Http\Controllers\ChatbotController::class, 'index'])->name('chatbot.index');
-    Route::post('/chatbot/send', [App\Http\Controllers\ChatbotController::class, 'sendMessage'])->name('chatbot.send');
+    Route::get('/ia-helper', [App\Http\Controllers\ChatbotController::class, 'index'])->name('chatbot.index');
+    Route::post('/ia-helper/send', [App\Http\Controllers\ChatbotController::class, 'sendMessage'])->name('chatbot.send');
 });
