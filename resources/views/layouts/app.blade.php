@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="da
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,25 +10,180 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Theme Variables */
         :root {
+            /* Dark theme (default) */
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             --warning-gradient: linear-gradient(135deg, #f39c12 0%, #f1c40f 100%);
             --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 100%);
+            --light-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             --glass-bg: rgba(255, 255, 255, 0.08);
             --glass-border: rgba(255, 255, 255, 0.15);
             --glass-hover: rgba(255, 255, 255, 0.12);
+            --glass-bg-light: rgba(255, 255, 255, 0.9);
+            --glass-border-light: rgba(0, 0, 0, 0.1);
+            --glass-hover-light: rgba(255, 255, 255, 0.95);
             --glow-primary: #667eea;
             --glow-secondary: #f5576c;
             --text-primary: #ffffff;
             --text-secondary: #cbd5e1;
             --text-muted: #94a3b8;
             --text-accent: #e2e8f0;
+            --text-primary-light: #1a202c;
+            --text-secondary-light: #4a5568;
+            --text-muted-light: #718096;
+            --text-accent-light: #2d3748;
             --surface-light: rgba(255, 255, 255, 0.95);
             --surface-dark: rgba(30, 30, 60, 0.9);
             --border-light: rgba(102, 126, 234, 0.2);
+            --border-dark: rgba(255, 255, 255, 0.1);
+            --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Light theme */
+        [data-theme="light"] {
+            --glass-bg: var(--glass-bg-light);
+            --glass-border: var(--glass-border-light);
+            --glass-hover: var(--glass-hover-light);
+            --text-primary: var(--text-primary-light);
+            --text-secondary: var(--text-secondary-light);
+            --text-muted: var(--text-muted-light);
+            --text-accent: var(--text-accent-light);
+            --border-light: var(--border-dark);
+        }
+
+        [data-theme="light"] body {
+            background: var(--light-gradient);
+        }
+
+        [data-theme="light"] .navbar {
+            background: var(--glass-bg-light) !important;
+            border-bottom: 1px solid var(--glass-border-light);
+            box-shadow: var(--shadow-light);
+        }
+
+        [data-theme="light"] .card {
+            background: var(--glass-bg-light);
+            border: 1px solid var(--glass-border-light);
+            box-shadow: var(--shadow-light);
+        }
+
+        [data-theme="light"] .card:hover {
+            background: var(--glass-hover-light);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="light"] .form-control,
+        [data-theme="light"] .form-select {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-primary-light);
+            border: 1px solid var(--glass-border-light);
+        }
+
+        [data-theme="light"] .form-control:focus,
+        [data-theme="light"] .form-select:focus {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: var(--glow-primary);
+            color: var(--text-primary-light);
+        }
+
+        [data-theme="light"] .table {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        [data-theme="light"] .table th {
+            background: rgba(102, 126, 234, 0.9);
+            color: #fff !important;
+        }
+
+        [data-theme="light"] .table td {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--text-primary-light) !important;
+        }
+
+        [data-theme="light"] .table-striped > tbody > tr:nth-of-type(odd) > td {
+            background: rgba(102, 126, 234, 0.05);
+            color: var(--text-primary-light) !important;
+        }
+
+        [data-theme="light"] .table-hover > tbody > tr:hover > td {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--text-primary-light) !important;
+        }
+
+        [data-theme="light"] footer {
+            background: var(--glass-bg-light);
+            border-top: 1px solid var(--glass-border-light);
+            color: var(--text-muted-light);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            margin-left: 1rem;
+        }
+
+        .theme-toggle-btn {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 50px;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-gradient);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .theme-toggle-btn:hover::before {
+            left: 0;
+        }
+
+        .theme-toggle-btn i {
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle-btn:hover i {
+            transform: rotate(180deg);
+        }
+
+        /* Smooth transitions for theme switching */
+        body,
+        .navbar,
+        .card,
+        .form-control,
+        .form-select,
+        .table,
+        .table th,
+        .table td,
+        footer {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -65,6 +220,13 @@
                 radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.3) 0%, transparent 50%);
             z-index: -1;
             animation: float 20s ease-in-out infinite;
+        }
+
+        [data-theme="light"] body::before {
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(245, 87, 108, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.1) 0%, transparent 50%);
         }
 
         @keyframes float {
@@ -536,9 +698,21 @@
                             <li><a class="dropdown-item" href="/logout" style="color: var(--text-primary);"><i class="fas fa-sign-out-alt me-2"></i>Déconnexion</a></li>
                         </ul>
                     </li>
+                    <!-- Theme Toggle Button -->
+                    <li class="nav-item theme-toggle">
+                        <button class="theme-toggle-btn" onclick="toggleTheme()" title="Changer de thème">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
                 @else
                     <li class="nav-item"><a class="nav-link" href="/login">Connexion</a></li>
                     <li class="nav-item"><a class="nav-link" href="/register">Inscription</a></li>
+                    <!-- Theme Toggle Button for non-authenticated users -->
+                    <li class="nav-item theme-toggle">
+                        <button class="theme-toggle-btn" onclick="toggleTheme()" title="Changer de thème">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
                 @endauth
             </ul>
         </div>
@@ -566,5 +740,104 @@
     <div>MyFuture &copy; {{ date('Y') }} &mdash; Plateforme Futuristique de Gestion des Candidatures</div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Theme toggle functionality
+    function toggleTheme() {
+        const html = document.documentElement;
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        // Update theme attribute
+        html.setAttribute('data-theme', newTheme);
+        
+        // Save to localStorage
+        localStorage.setItem('theme', newTheme);
+        
+        // Update all theme toggle buttons
+        const buttons = document.querySelectorAll('.theme-toggle-btn i');
+        buttons.forEach(button => {
+            button.className = newTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+        
+        // Add smooth transition effect
+        document.body.style.transition = 'all 0.5s ease';
+        setTimeout(() => {
+            document.body.style.transition = '';
+        }, 500);
+        
+        // Show theme change notification
+        showThemeNotification(newTheme);
+    }
+    
+    // Show theme change notification
+    function showThemeNotification(theme) {
+        const notification = document.createElement('div');
+        notification.className = 'alert alert-info position-fixed';
+        notification.style.cssText = `
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            min-width: 200px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            animation: slideIn 0.3s ease;
+        `;
+        notification.innerHTML = `
+            <i class="fas fa-${theme === 'light' ? 'sun' : 'moon'} me-2"></i>
+            Thème ${theme === 'light' ? 'clair' : 'sombre'} activé
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Remove notification after 3 seconds
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
+    }
+    
+    // Initialize theme on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // Update theme toggle buttons
+        const buttons = document.querySelectorAll('.theme-toggle-btn i');
+        buttons.forEach(button => {
+            button.className = savedTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+    });
+    
+    // Add CSS animations for notifications
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
 </body>
 </html> 

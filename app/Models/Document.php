@@ -24,4 +24,14 @@ class Document extends Model
     {
         return $this->belongsTo(Application::class);
     }
+
+    public function user()
+    {
+        return $this->hasOneThrough(User::class, Application::class, 'id', 'id', 'application_id', 'user_id');
+    }
+
+    public function validator()
+    {
+        return $this->belongsTo(User::class, 'validated_by');
+    }
 }
